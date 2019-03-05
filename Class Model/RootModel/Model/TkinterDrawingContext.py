@@ -1,7 +1,16 @@
 from RootModel.Model.DrawingContext import DrawingContext
 from typing import *
+from tkinter import Canvas
 
-class QTDrawingContext(DrawingContext):
+class TkinterDrawingContext(DrawingContext):
+
+    def __init__(self, canvas: Canvas) -> None:
+        if canvas is None:
+            raise ValueError('None canvas provided')
+
+        self.__canvas = canvas
+        super().__init__()
+
     def draw_arc(params : Tuple[float, ...]):
         raise NotImplementedError('Implement me')
 
