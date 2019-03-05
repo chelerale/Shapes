@@ -1,6 +1,6 @@
 from tkinter import *
 from typing import *
-from Model import TkinterDrawingContext
+from Model.TkinterDrawingContext import TkinterDrawingContext
 
 class ApplicationWindow:
     __WINDOW_SIZE : Tuple[int, int] = (600, 600)
@@ -48,6 +48,7 @@ class ApplicationWindow:
         self.__canvas.bind("<Button 1>", lambda e: print('LMB'))
         self.__canvas.bind("<Button 3>", lambda e: print('RMB'))
         self.__canvas.pack(fill=BOTH, expand=YES)
+        TkinterDrawingContext(self.__canvas)
 
 
 if __name__ == '__main__':
