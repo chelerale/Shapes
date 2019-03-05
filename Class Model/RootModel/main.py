@@ -1,6 +1,6 @@
 from tkinter import *
 from typing import *
-
+from Model import TkinterDrawingContext
 
 class ApplicationWindow:
     __WINDOW_SIZE : Tuple[int, int] = (600, 600)
@@ -13,6 +13,14 @@ class ApplicationWindow:
         self.__master.title('Shape drawer')
         self.__master.geometry('x'.join(str(x) for x in self.__WINDOW_SIZE))
         self.__create_menu()
+ 
+        self.__canvas = Canvas(
+            self.__master,
+            width=self.__WINDOW_SIZE[0],
+            height=self.__WINDOW_SIZE[1]
+        )
+        self.__setup_canvas()
+
 
     def __create_menu(self) -> None:
         menubar = Menu(self.__master)
@@ -35,6 +43,12 @@ class ApplicationWindow:
         vis_menu.add_command(label='Line Color', command=None)
         vis_menu.add_command(label='Line Style', command=None)
         vis_menu.add_command(label='Fill Color', command=None)
+
+    def __setup_canvas(self) -> None:
+        self.__canvas.bind("<Button 1>", lambda e: print('LMB'))
+        self.__canvas.bind("<Button 3>", lambda e: print('RMB'))
+        self.__canvas.pack(fill=BOTH, expand=YES)
+
 
 if __name__ == '__main__':
     root = Tk()

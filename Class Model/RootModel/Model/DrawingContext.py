@@ -1,6 +1,11 @@
 from typing import *
+from abc import ABC, abstractmethod
 
-class DrawingContext:
+class DrawingContext(ABC):
+
+    def __init__(self):
+        pass
+
     @abstractmethod
     def draw_arc(params : Tuple[float, ...]):
         pass

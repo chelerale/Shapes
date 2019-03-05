@@ -1,4 +1,4 @@
-from RootModel.Model.DrawingContext import DrawingContext
+from .DrawingContext import DrawingContext
 from typing import *
 from tkinter import Canvas
 
@@ -25,7 +25,7 @@ class Singleton:
         if not isinstance(cls, DrawingContext):
             raise AttributeError
         if self._instance is None:
-            self._instance = super(Singleton, cls).__call__(*args, **kwargs)
+            self._instance = super(Singleton, cls).__call__()
         return self._instance
 
 
@@ -45,7 +45,7 @@ class TkinterDrawingContext(DrawingContext):
 
     @parameter_count_controller(4, 'Top-left and bottom-right expected')
     def draw_ellipse(params : Tuple[float, ...]):
-        x0, y0, x1, y1 = *params
+        x0, y0, x1, y1 = params
         self.__canvas.create_oval(x0, y0, x1, y1)
 
     @parameter_count_controller(2, '(x, y) exprected')
@@ -55,12 +55,12 @@ class TkinterDrawingContext(DrawingContext):
 
     @parameter_count_controller(4, 'Top-left (x, y) and right_bottom (x, y)')
     def draw_rectangle(params : Tuple[float, ...]):
-        x0, y0, x1, y1 = *params
+        x0, y0, x1, y1 = params
         self.__canvas.create_rectangle(x0, y0, x1, y1)
 
     @parameter_count_controller(4, 'x0, y0, x1, y1')
     def draw_segment(Point: Tuple[float, ...]):
-        x0, y0, x1, y1 = *params
+        x0, y0, x1, y1 = params
         self.__canvas.create_line(x0, y0, x1, y1)
 
     def set_color(color):
