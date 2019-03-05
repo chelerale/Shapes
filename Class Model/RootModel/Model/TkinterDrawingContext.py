@@ -18,8 +18,21 @@ def parameter_count_controller(count_param: int, err_msg: str):
     return decorator
 
 
+class Singleton:
+    _instance : DrawingContext = None
+    
+    def __call__(cls, *args, **kwargs):
+        if not isinstance(cls, DrawingContext):
+            raise AttributeError
+        if self._instance is None:
+            self._instance = super(Singleton, cls).__call__(*args, **kwargs)
+        return self._instance
+
+
+
 class TkinterDrawingContext(DrawingContext):
 
+    __metaclass__ = Singleton
     def __init__(self, canvas: Canvas) -> None:
         if canvas is None:
             raise ValueError('None canvas provided')
