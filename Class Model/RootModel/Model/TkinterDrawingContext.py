@@ -7,8 +7,9 @@ def parameter_count_controller(count_param: int, err_msg: str):
         def wrapper(*args, **kwargs):
             if (len(args) != count_param):
                 raise ValueError(
-                    "Invalid parameter count in function {}, params got: {}, tip : {}".format(
-                        func, args, err_msg
+                    "Invalid parameter count in function {}, params got: {}, \
+                     excepted count :{} ,tip : {}".format(
+                        func, args, count_param, err_msg
                     )
                 )
             result = func(*args, **kwargs)
@@ -31,7 +32,7 @@ class TkinterDrawingContext(DrawingContext):
 
     @parameter_count_controller(4, 'Top-left and bottom-right expected')
     def draw_ellipse(params : Tuple[float, ...]):
-        x0, y0, x1, y0 = *params
+        x0, y0, x1, y1 = *params
         self.__canvas.create_oval(x0, y0, x1, y1)
 
     @parameter_count_controller(2, '(x, y) exprected')
@@ -39,11 +40,15 @@ class TkinterDrawingContext(DrawingContext):
         x, y, r = *params, 1
         self.__canvas.create_oval(x-r, y-r, x+r, y+r, width=2)
 
-    def draw_rectangle(Point : Tuple[float, ...]):
-        raise NotImplementedError('Implement me')
+    @parameter_count_controller(4, 'Top-left (x, y) and right_bottom (x, y)')
+    def draw_rectangle(params : Tuple[float, ...]):
+        x0, y0, x1, y1 = *params
+        self.__canvas.create_rectangle(x0, y0, x1, y1)
 
+    @parameter_count_controller(4, 'x0, y0, x1, y1')
     def draw_segment(Point: Tuple[float, ...]):
-        raise NotImplementedError('Implement me')
+        x0, y0, x1, y1 = *params
+        self.__canvas.create_line(x0, y0, x1, y1)
 
     def set_color(color):
         raise NotImplementedError('Implement me')
