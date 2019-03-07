@@ -15,21 +15,25 @@ class DrawingContext():
         pass
 
     @abstractmethod
-    def draw_arc(params : Tuple[float, ...]):
+    def draw_arc(self, params : Tuple[int, ...]):
         pass
 
     @abstractmethod
-    def draw_ellipse(params : Tuple[float, ...]):
+    def draw_ellipse(self, params : Tuple[int, ...]):
         pass
 
     @abstractmethod
-    def draw_point(Point : Tuple[float, ...]):
+    def draw_point(self, params : Tuple[int, ...]):
         pass
 
     @abstractmethod
-    def draw_rectangle(Point : Tuple[float, ...]):
+    def draw_rectangle(self, params : Tuple[int, ...]):
         pass
 
     @abstractmethod
-    def draw_segment(Point : Tuple[float, ...]):
+    def draw_segment(self, params : Tuple[int, ...]):
+        pass
+
+    @abstractmethod
+    def get_area_size(self):
         pass

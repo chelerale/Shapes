@@ -1,7 +1,7 @@
 from tkinter import *
 from typing import *
 from Model.TkinterDrawingContext import TkinterDrawingContext
-from Model.ClickHandler import ClickHandler
+from Model.ClickHandler import ClickHandler, SHAPES_DESC
 
 
 class ApplicationWindow:
@@ -15,6 +15,7 @@ class ApplicationWindow:
         self.__master.title('Shape drawer')
         self.__master.geometry('x'.join(str(x) for x in self.__WINDOW_SIZE))
         self.__clicker : ClickHandler = ClickHandler()
+        
         self.__create_menu()
  
         self.__canvas : Canvas = Canvas(
@@ -38,9 +39,13 @@ class ApplicationWindow:
         self.__create_visual_repr_menu(vis_menu)
         
     def __create_shapes_menu(self, shapes_menu : Menu) -> None:
-        shapes_menu.add_command(label='Segment', command=self.__clicker.set_object('Segment'))
-        shapes_menu.add_command(label='Line', command=None)
-        shapes_menu.add_command(label="Ray", command=None)
+        for label in SHAPES_DESC.keys():
+            shapes_menu.add_command(
+                label=label,
+                command=lambda x=label: self.__clicker.set_object(x)
+            )
+
+        self.__clicker.set_object('Segment')
 
     def __create_visual_repr_menu(self, vis_menu : Menu) -> None:
         vis_menu.add_command(label='Line Color', command=None)
