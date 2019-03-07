@@ -14,6 +14,7 @@ class ApplicationWindow:
         self.__master = master
         self.__master.title('Shape drawer')
         self.__master.geometry('x'.join(str(x) for x in self.__WINDOW_SIZE))
+        self.__clicker : ClickHandler = ClickHandler()
         self.__create_menu()
  
         self.__canvas : Canvas = Canvas(
@@ -21,7 +22,6 @@ class ApplicationWindow:
             width=self.__WINDOW_SIZE[0],
             height=self.__WINDOW_SIZE[1]
         )
-        self.__clicker : ClickHandler = ClickHandler()
         self.__setup_canvas()
         
 
@@ -38,7 +38,7 @@ class ApplicationWindow:
         self.__create_visual_repr_menu(vis_menu)
         
     def __create_shapes_menu(self, shapes_menu : Menu) -> None:
-        shapes_menu.add_command(label='Segment', command=None)
+        shapes_menu.add_command(label='Segment', command=self.__clicker.set_object('Segment'))
         shapes_menu.add_command(label='Line', command=None)
         shapes_menu.add_command(label="Ray", command=None)
 
@@ -51,7 +51,6 @@ class ApplicationWindow:
         self.__canvas.bind("<Button 1>", lambda e: self.__clicker.left_click(e))
         self.__canvas.bind("<Button 3>", lambda e: self.__clicker.right_click(e))
         self.__canvas.pack(fill=BOTH, expand=YES)
-        self.__clicker.set_object('segment')
         TkinterDrawingContext(self.__canvas)
 
 
