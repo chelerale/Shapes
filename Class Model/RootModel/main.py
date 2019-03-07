@@ -51,6 +51,7 @@ class ApplicationWindow:
         self.__canvas.bind("<Button 1>", lambda e: self.__clicker.left_click(e))
         self.__canvas.bind("<Button 3>", lambda e: self.__clicker.right_click(e))
         self.__canvas.pack(fill=BOTH, expand=YES)
+        self.__clicker.set_object('segment')
         TkinterDrawingContext(self.__canvas)
 
 
