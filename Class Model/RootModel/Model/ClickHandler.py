@@ -54,7 +54,7 @@ class ClickHandler:
         if self.__counter == self.__description[self.__current_object_name][0] - 1:
             self.__counter = 0
             self.__current_object.draw(TkinterDrawingContext())
-            self.__recreate_object
+            self.__recreate_object()
         else:
             self.__counter += 1
             
