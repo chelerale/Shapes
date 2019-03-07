@@ -1,19 +1,20 @@
 from typing import *
-from RootModel.Model.DrawingContext import DrawingContext
-from RootModel.Model.Point2D import Point2D
+from .DrawingContext import DrawingContext
+from .Point2D import Point2D
+from abc import abstractmethod
 
 class Shape:
-    self.__drawing_context : Optional[DrawingContext]
-    self.__location_points : List[Point2D] = []
+    def __init__(self) -> None:
+        self.__location_points : List[Point2D] = []
 
     @abstractmethod
-    def draw(context : DrawingContext) -> NoReturn:
-        raise NotImplementedError('Implement me')
+    def draw(self, context : DrawingContext) -> None:
+        pass#raise NotImplementedError('Implement me')
 
     @abstractmethod
-    def location() -> NoReturn:
+    def location(self) -> None:
         pass
 
     @abstractmethod
-    def move(target_location: Point2D) -> NoReturn:
+    def move(self, target_location: Point2D) -> None:
         pass

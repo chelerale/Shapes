@@ -1,8 +1,10 @@
 from typing import * 
-from RootModel.Model.LineShape import LineShape
+from .LineShape import LineShape
+from .DrawingContext import DrawingContext
 
 class PolygonalLine:
-    self.__inner_segments : List[LineShape] = []
+    def __init__(self) -> None:
+        self.__inner_segments : List[LineShape] = []
 
-    def draw(context : DrawingContext) -> NoReturn:
+    def draw(context : DrawingContext) -> None:
         raise NotImplementedError('Implement me')
