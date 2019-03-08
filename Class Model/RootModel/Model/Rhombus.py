@@ -9,6 +9,7 @@
 #######################################################
 from .Parallelogram import Parallelogram
 
+
 class Rhombus(Parallelogram):
     __vertex_count = 2
     def draw(DrawingContext):

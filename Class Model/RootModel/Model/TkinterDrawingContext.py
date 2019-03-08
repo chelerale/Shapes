@@ -5,8 +5,10 @@ from tkinter import Canvas
 
 class TkinterDrawingContext(DrawingContext, metaclass=Singleton):
 
+
+
     def parameter_count_controller(count_param: int, err_msg: str):
-        def decorator(func : Callable):
+        def decorator(func: Callable):
             def wrapper(self, params):
                 if len(params) != count_param:
                     raise ValueError(
@@ -17,32 +19,33 @@ class TkinterDrawingContext(DrawingContext, metaclass=Singleton):
                     )
                 result = func(self, params)
                 return result
-            return wrapper
-        return decorator
 
+            return wrapper
+
+        return decorator
 
     def __init__(self, canvas: Canvas) -> None:
         if canvas is None:
             raise ValueError('None canvas provided')
 
-        self.__canvas : Canvas = canvas
+        self.__canvas: Canvas = canvas
         super().__init__()
 
-    def draw_arc(self, params : Tuple[int, ...]):
+    def draw_arc(self, params: Tuple[int, ...]):
         raise NotImplementedError('Implement me')
 
     @parameter_count_controller(4, 'Top-left and bottom-right expected')
-    def draw_ellipse(self, params : Tuple[int, ...]):
+    def draw_ellipse(self, params: Tuple[int, ...]):
         x0, y0, x1, y1 = params
         self.__canvas.create_oval(x0, y0, x1, y1)
 
     @parameter_count_controller(2, '(x, y) exprected')
-    def draw_point(self, params : Tuple[int, ...]):
+    def draw_point(self, params: Tuple[int, ...]):
         x, y, r = *params, 1
-        self.__canvas.create_oval(x-r, y-r, x+r, y+r, width=2)
+        self.__canvas.create_oval(x - r, y - r, x + r, y + r, width=2)
 
     @parameter_count_controller(4, 'Top-left (x, y) and right_bottom (x, y)')
-    def draw_rectangle(self, params : Tuple[int, ...]):
+    def draw_rectangle(self, params: Tuple[int, ...]):
         x0, y0, x1, y1 = params
         self.__canvas.create_rectangle(x0, y0, x1, y1)
 
@@ -50,6 +53,12 @@ class TkinterDrawingContext(DrawingContext, metaclass=Singleton):
     def draw_segment(self, params: Tuple[int, ...]):
         x0, y0, x1, y1 = params
         self.__canvas.create_line(x0, y0, x1, y1)
+
+    def draw_polygonal_line(self, params: Tuple[int, ...]):
+        pass
+
+    def draw_polygonal_shape(self, params: Tuple[int, ...]):
+        pass
 
     def get_area_size(self):
         return self.__canvas.winfo_width(), self.__canvas.winfo_height()

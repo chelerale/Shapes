@@ -8,7 +8,8 @@
 # 
 #######################################################
 from .Shape import Shape
+from .DrawingContext import DrawingContext
 
 class PolygonalShape(Shape):
-    def draw():
+    def draw(context: DrawingContext) -> None:
         pass
