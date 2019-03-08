@@ -20,14 +20,7 @@ class PolygonalLine:
         self.__inner_segments.append(segment)
 
     def addPoint(self, point: Point2D) -> None:
-        if len(self.__inner_segments) == 0:
-            segment = LineShape()
-            segment.begin = point
-            segment.end = point
-            self.__inner_segments.append(segment)
-        else:
-            segment = LineShape()
-            firstPoint = self.__inner_segments[-1].end
-            segment.begin = firstPoint
-            segment.end = point
-            self.__inner_segments.append(segment)
+        segment = LineShape()
+        segment.begin = point if len(self.__inner_segments) == 0 else self.__inner_segments[-1].end
+        segment.end = point
+        self.__inner_segments.append(segment)

@@ -54,12 +54,6 @@ class TkinterDrawingContext(DrawingContext, metaclass=Singleton):
         x0, y0, x1, y1 = params
         self.__canvas.create_line(x0, y0, x1, y1)
 
-    def draw_polygonal_line(self, params: Tuple[int, ...]):
-        pass
-
-    def draw_polygonal_shape(self, params: Tuple[int, ...]):
-        pass
-
     def get_area_size(self):
         return self.__canvas.winfo_width(), self.__canvas.winfo_height()
 
