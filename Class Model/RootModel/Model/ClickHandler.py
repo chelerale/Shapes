@@ -30,13 +30,16 @@ def segment_accumulator(point: Point2D, segment: Segment, counter: int) -> None:
         segment.end = point
 
 
-def polygon_accumulator(point: Point2D, poly: PolygonalShape, counter: int) -> None:
-    raise NotImplementedError
+def polygon_accumulator(
+        point: Point2D, poly: PolygonalShape,
+        counter: int, right_click=False) -> None:
+    poly.addPoint(point, right_click)
+    poly.draw(TkinterDrawingContext())
 
 
 def poly_line_accumulator(
         point: Point2D, poly: PolygonalLine,
-        counter: int, right_click=True) -> None:
+        counter: int, right_click=False) -> None:
 
     poly.addPoint(point)
     poly.draw(TkinterDrawingContext())
