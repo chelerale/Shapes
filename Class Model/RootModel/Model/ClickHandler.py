@@ -15,6 +15,7 @@ from .Parallelogram import Parallelogram
 from .PolygonalLine import PolygonalLine
 from .NRegularPolygon import NRegularPolygon
 from .TkinterDrawingContext import TkinterDrawingContext
+import tkinter.simpledialog as simpledialog
 import operator
 from functools import reduce
 from math import inf
@@ -64,6 +65,16 @@ def circle_accumulator(point: Point2D, circle: Circle, counter: int) -> None:
     else:
         circle.end = point
 
+def regular_polygon_accumulator(point: Point2D, poly: NRegularPolygon, counter: int) -> None:
+    if counter not in {0, 1}:
+        raise ValueError('Invalid number of points in regulat polygon')
+    
+    poly.addPoint(point, counter==1)
+    if counter == 0:
+        poly.set_vertex_count(REG_POLY_COUNT)
+    
+
+REG_POLY_COUNT = None
 # Description: (number of points to click, is right-click required)
 SHAPES_DESC = {
     "Segment": (2, False, segment_accumulator),
@@ -71,7 +82,7 @@ SHAPES_DESC = {
     "Ray": (2, False, segment_accumulator),
     "Polygonal Line": (inf, True, poly_line_accumulator),
     "Polygon": (inf, True, polygon_accumulator),
-    "Regular Polygon": (2, False, None),
+    "Regular Polygon": (2, False, regular_polygon_accumulator),
     "Parallelogram": (2, False, None),
     "Rectangle": (2, False, None),
     "Rhombus": (2, False, None),
@@ -132,6 +143,12 @@ class ClickHandler:
     def set_object(self, name: str) -> None:
         if name.lower() not in SHAPES_DESC:
             raise LookupError("Shape {} not found".format(name.lower()))
+
+        if name.lower() == 'regular polygon':
+            global REG_POLY_COUNT
+            REG_POLY_COUNT = simpledialog.askinteger("Input", "Vertex count",
+                                 minvalue=3, maxvalue=100)
+
         self.__current_object_name = name.lower()
         self.__recreate_object()
 

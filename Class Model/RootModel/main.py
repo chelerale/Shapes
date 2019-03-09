@@ -24,7 +24,7 @@ class ApplicationWindow:
             height=self.__WINDOW_SIZE[1]
         )
         self.__setup_canvas()
-
+        
     def __create_menu(self) -> None:
         menubar = Menu(self.__master)
         self.__master.config(menu=menubar)
