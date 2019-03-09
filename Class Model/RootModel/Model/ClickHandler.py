@@ -34,7 +34,10 @@ def polygon_accumulator(point: Point2D, poly: PolygonalShape, counter: int) -> N
     raise NotImplementedError
 
 
-def poly_line_accumulator(point: Point2D, poly: PolygonalLine, counter: int) -> None:
+def poly_line_accumulator(
+        point: Point2D, poly: PolygonalLine,
+        counter: int, right_click=True) -> None:
+
     poly.addPoint(point)
     poly.draw(TkinterDrawingContext())
 
@@ -134,4 +137,19 @@ class ClickHandler:
         self.__current_object = FACTORY[self.__current_object_name]()
 
     def right_click(self, event: Event) -> None:
-        raise NotImplementedError('Not supported yet')
+        if self.__current_object_name not in SHAPES_DESC:
+            raise ValueError('Unknown figure "{}"'.format(self.__current_object_name))
+
+        if not SHAPES_DESC[self.__current_object_name][1]:
+            return
+
+        SHAPES_DESC[self.__current_object_name][2](
+            Point2D(event.x, event.y),
+            self.__current_object,
+            self.__counter,
+            True
+        )
+
+        self.__counter = 0
+        self.__current_object.draw(TkinterDrawingContext())
+        self.__recreate_object()
