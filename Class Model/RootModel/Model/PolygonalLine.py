@@ -16,6 +16,8 @@ class PolygonalLine:
 
             context.draw_segment((*begin.get_coordinates(), *end.get_coordinates()))
             self.__last_segment = None
+            context.draw_point(begin.get_coordinates())
+            context.draw_point(end.get_coordinates())
         
     def addPoint(self, point: Point2D) -> None:
         segment = LineShape()

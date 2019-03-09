@@ -40,6 +40,8 @@ def polygon_accumulator(
 def poly_line_accumulator(
         point: Point2D, poly: PolygonalLine,
         counter: int, right_click=False) -> None:
+    if right_click:
+        return
 
     poly.addPoint(point)
     poly.draw(TkinterDrawingContext())
