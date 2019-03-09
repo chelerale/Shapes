@@ -3,6 +3,7 @@ from .DrawingContext import DrawingContext
 from .Point2D import Point2D
 from abc import abstractmethod
 
+
 class Shape:
     def __init__(self) -> None:
         self.__location_points : List[Point2D] = []

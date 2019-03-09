@@ -5,9 +5,11 @@ from .Segment import Segment
 from .PolygonalShape import PolygonalShape
 from .Line import Line
 from .Ray import Ray
+from .Circle import Circle
 from .Rectangle import Rectangle
 from .Rhombus import Rhombus
 from .Ellipse import Ellipse
+from .Shape import Shape
 from .Rectangle import Rectangle
 from .Parallelogram import Parallelogram
 from .PolygonalLine import PolygonalLine
@@ -18,7 +20,7 @@ from functools import reduce
 from math import inf
 
 
-def segment_accumulator(point: Point2D, segment: Segment, counter : int) -> None:
+def segment_accumulator(point: Point2D, segment: Segment, counter: int) -> None:
     if counter not in {0, 1}:
         raise ValueError('Invalid number of points in segment')
 
@@ -33,62 +35,79 @@ def polygon_accumulator(point: Point2D, poly: PolygonalShape, counter: int) -> N
 
 
 def poly_line_accumulator(point: Point2D, poly: PolygonalLine, counter: int) -> None:
-    raise NotImplementedError
+    poly.addPoint(point)
 
+def ellipse_accumulator(point: Point2D, ellipse: Ellipse, counter: int) -> None:
+    if counter not in {0, 1}:
+        raise ValueError('Invalid number of points in ellipse')
+
+    if counter == 0:
+        ellipse.begin = point
+    else:
+        ellipse.end = point
+
+def circle_accumulator(point: Point2D, circle: Circle, counter: int) -> None:
+    if counter not in {0, 1}:
+        raise ValueError('Invalid number of points in circle')
+
+    if counter == 0:
+        circle.begin = point
+    else:
+        circle.end = point
 
 # Description: (number of points to click, is right-click required)
 SHAPES_DESC = {
-    "Segment" : (2, False, segment_accumulator),
-    "Line" : (2, False, segment_accumulator),
-    "Ray" : (2, False, segment_accumulator),
-    "Polygonal Line" : (inf, True, poly_line_accumulator),
-    "Polygon" : (inf, True, polygon_accumulator),
-    "Regular Polygon" : (2, False, None),
-    "Parallelogram" : (2, False, None),
-    "Rectangle" : (2, False, None),
-    "Rhombus" : (2, False, None),
-    "Ellipse" : (2, False, None)
+    "Segment": (2, False, segment_accumulator),
+    "Line": (2, False, segment_accumulator),
+    "Ray": (2, False, segment_accumulator),
+    "Polygonal Line": (inf, True, poly_line_accumulator),
+    "Polygon": (inf, True, polygon_accumulator),
+    "Regular Polygon": (2, False, None),
+    "Parallelogram": (2, False, None),
+    "Rectangle": (2, False, None),
+    "Rhombus": (2, False, None),
+    "Ellipse": (2, False, ellipse_accumulator),
+    "Circle": (2, False, circle_accumulator)
 }
-
 
 SHAPES_DESC = {
-    k.lower() : v for k, v in SHAPES_DESC.items()
+    k.lower(): v for k, v in SHAPES_DESC.items()
 }
 
-
 FACTORY = {
-    "Segment" : Segment,
-    "Line" : Line,
-    "Ray" : Ray,
-    "Polygonal Line" : PolygonalLine,
-    "Polygon" : PolygonalShape,
-    "Regular Polygon" : NRegularPolygon,
-    "Parallelogram" : Parallelogram,
-    "Rectangle" : Rectangle,
-    "Rhombus" : Rhombus,
-    "Ellipse" : Ellipse
+    "Segment": Segment,
+    "Line": Line,
+    "Ray": Ray,
+    "Polygonal Line": PolygonalLine,
+    "Polygon": PolygonalShape,
+    "Regular Polygon": NRegularPolygon,
+    "Parallelogram": Parallelogram,
+    "Rectangle": Rectangle,
+    "Rhombus": Rhombus,
+    "Ellipse": Ellipse,
+    "Circle": Circle
 }
 
-
 FACTORY = {
-    k.lower() : v for k, v in FACTORY.items()
+    k.lower(): v for k, v in FACTORY.items()
 }
 
 
 class ClickHandler:
     def __init__(self) -> None:
-        self.__accumulated_points : List[Point2D] = []
-        self.__counter : int = 0
-        self.__current_object : Shape = None
-        self.__current_object_name : str = None
+        self.__accumulated_points: List[Point2D] = []
+        self.__counter: int = 0
+        self.__current_object: Shape = None
+        self.__current_object_name: str = None
 
     def left_click(self, event: Event) -> None:
+        print("Left click")
         if not hasattr(event, 'x') and not hasattr(event, 'y'):
             raise TypeError('Unsupported event type')
-        
+
         if self.__current_object is None or self.__current_object_name is None:
-            raise ValueError('None object to draw') 
-        
+            raise ValueError('None object to draw')
+
         SHAPES_DESC[self.__current_object_name][2](
             Point2D(event.x, event.y),
             self.__current_object,
@@ -101,19 +120,18 @@ class ClickHandler:
             self.__recreate_object()
         else:
             self.__counter += 1
-            
+
     def set_object(self, name: str) -> None:
         if name.lower() not in SHAPES_DESC:
             raise LookupError("Shape {} not found".format(name.lower()))
         self.__current_object_name = name.lower()
         self.__recreate_object()
-        
+
     def __recreate_object(self) -> None:
         if self.__current_object_name is None or self.__current_object_name not in SHAPES_DESC:
             raise LookupError("Shape {} not found".format(self.__current_object_name))
 
         self.__current_object = FACTORY[self.__current_object_name]()
-        
-        
+
     def right_click(self, event: Event) -> None:
         raise NotImplementedError('Not supported yet')

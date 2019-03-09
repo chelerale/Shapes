@@ -8,7 +8,10 @@
 # 
 #######################################################
 from .Shape import Shape
+from .DrawingContext import DrawingContext
+
 
 class Ellipse(Shape):
-    def draw(DrawingContext):
-        pass
+    def draw(self, context: DrawingContext):
+        a, b, c, d = *self.begin.get_coordinates(), *self.end.get_coordinates()
+        context.draw_ellipse((a, b, c, d))

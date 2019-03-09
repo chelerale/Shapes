@@ -2,6 +2,7 @@ from typing import *
 from .LineShape import LineShape
 from .DrawingContext import DrawingContext
 
+
 class Segment(LineShape):
     
     def draw(self, context: DrawingContext):

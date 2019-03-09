@@ -1,6 +1,7 @@
 from typing import *
 from abc import ABC, abstractmethod
 
+
 class Singleton(type):
     _instances = {}
 
@@ -32,6 +33,14 @@ class DrawingContext():
 
     @abstractmethod
     def draw_segment(self, params : Tuple[int, ...]):
+        pass
+
+    @abstractmethod
+    def draw_polygonal_line(self, params: Tuple[int, ...]):
+        pass
+
+    @abstractmethod
+    def draw_polygonal_shape(self, params: Tuple[int, ...]):
         pass
 
     @abstractmethod
