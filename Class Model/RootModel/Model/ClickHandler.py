@@ -36,6 +36,7 @@ def polygon_accumulator(point: Point2D, poly: PolygonalShape, counter: int) -> N
 
 def poly_line_accumulator(point: Point2D, poly: PolygonalLine, counter: int) -> None:
     poly.addPoint(point)
+    poly.draw(TkinterDrawingContext())
 
 def ellipse_accumulator(point: Point2D, ellipse: Ellipse, counter: int) -> None:
     if counter not in {0, 1}:
@@ -101,7 +102,6 @@ class ClickHandler:
         self.__current_object_name: str = None
 
     def left_click(self, event: Event) -> None:
-        print("Left click")
         if not hasattr(event, 'x') and not hasattr(event, 'y'):
             raise TypeError('Unsupported event type')
 
