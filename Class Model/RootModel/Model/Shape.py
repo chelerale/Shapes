@@ -6,7 +6,7 @@ from abc import abstractmethod
 
 class Shape:
     def __init__(self) -> None:
-        self.__location_points : List[Point2D] = []
+        self._location_points : List[Point2D] = []
 
     @abstractmethod
     def draw(self, context : DrawingContext) -> None:
@@ -15,6 +15,10 @@ class Shape:
     @abstractmethod
     def location(self) -> None:
         pass
+
+    @property
+    def location_points(self) -> List[Point2D]:
+        return self._location_points
 
     @abstractmethod
     def move(self, target_location: Point2D) -> None:
