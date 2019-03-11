@@ -47,9 +47,8 @@ class ApplicationWindow:
         self.__clicker.set_object('Segment')
 
     def __create_visual_repr_menu(self, vis_menu: Menu) -> None:
-        vis_menu.add_command(label='Line Color', command=None)
-        vis_menu.add_command(label='Line Style', command=None)
-        vis_menu.add_command(label='Fill Color', command=None)
+        vis_menu.add_command(label='Line Color', command=lambda x='Line Color': self.__clicker.set_decor(x))
+        vis_menu.add_command(label='Fill Color', command=lambda x='Fill Color': self.__clicker.set_decor(x))
 
     def __setup_canvas(self) -> None:
         self.__canvas.bind("<Button 1>", lambda e: self.__clicker.left_click(e))

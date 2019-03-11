@@ -10,7 +10,6 @@ from .Rectangle import Rectangle
 from .Rhombus import Rhombus
 from .Ellipse import Ellipse
 from .Shape import Shape
-from .Rectangle import Rectangle
 from .Parallelogram import Parallelogram
 from .PolygonalLine import PolygonalLine
 from .NRegularPolygon import NRegularPolygon
@@ -35,7 +34,7 @@ def polygon_accumulator(
         point: Point2D, poly: PolygonalShape,
         counter: int, right_click=False) -> None:
     poly.addPoint(point, right_click)
-    poly.draw(TkinterDrawingContext())
+    poly.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
 
 
 def poly_line_accumulator(
@@ -45,8 +44,26 @@ def poly_line_accumulator(
         return
 
     poly.addPoint(point)
-    poly.draw(TkinterDrawingContext())
+    poly.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
 
+def parallelogram_accumulator(
+        point: Point2D, parallelogram: Parallelogram,
+        counter: int) -> None:
+  
+    parallelogram.addPoint(point)
+    
+def rectangle_accumulator(
+        point: Point2D, rectangle: Rectangle,
+        counter: int) -> None:
+  
+    rectangle.addPoint(point)
+    
+def rhombus_accumulator(
+        point: Point2D, rhombus: Rhombus,
+        counter: int) -> None:
+  
+    rhombus.addPoint(point)
+        
 def ellipse_accumulator(point: Point2D, ellipse: Ellipse, counter: int) -> None:
     if counter not in {0, 1}:
         raise ValueError('Invalid number of points in ellipse')
@@ -67,7 +84,7 @@ def circle_accumulator(point: Point2D, circle: Circle, counter: int) -> None:
 
 def regular_polygon_accumulator(point: Point2D, poly: NRegularPolygon, counter: int) -> None:
     if counter not in {0, 1}:
-        raise ValueError('Invalid number of points in regulat polygon')
+        raise ValueError('Invalid number of points in regular polygon')
     
     poly.addPoint(point, counter==1)
     if counter == 0:
@@ -75,6 +92,8 @@ def regular_polygon_accumulator(point: Point2D, poly: NRegularPolygon, counter: 
     
 
 REG_POLY_COUNT = None
+LINE_COLOR = 'black'
+FILL_COLOR = 'white'
 # Description: (number of points to click, is right-click required)
 SHAPES_DESC = {
     "Segment": (2, False, segment_accumulator),
@@ -83,9 +102,9 @@ SHAPES_DESC = {
     "Polygonal Line": (inf, True, poly_line_accumulator),
     "Polygon": (inf, True, polygon_accumulator),
     "Regular Polygon": (2, False, regular_polygon_accumulator),
-    "Parallelogram": (2, False, None),
-    "Rectangle": (2, False, None),
-    "Rhombus": (2, False, None),
+    "Parallelogram": (3, False, parallelogram_accumulator),
+    "Rectangle": (2, False, rectangle_accumulator),
+    "Rhombus": (2, False, rhombus_accumulator),
     "Ellipse": (2, False, ellipse_accumulator),
     "Circle": (2, False, circle_accumulator)
 }
@@ -135,7 +154,7 @@ class ClickHandler:
 
         if self.__counter == SHAPES_DESC[self.__current_object_name][0] - 1:
             self.__counter = 0
-            self.__current_object.draw(TkinterDrawingContext())
+            self.__current_object.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
             self.__recreate_object()
         else:
             self.__counter += 1
@@ -148,7 +167,20 @@ class ClickHandler:
             global REG_POLY_COUNT
             REG_POLY_COUNT = simpledialog.askinteger("Input", "Vertex count",
                                  minvalue=3, maxvalue=100)
-
+                  
+        self.__current_object_name = name.lower()
+        self.__recreate_object()
+        
+    def set_decor(self, name: str) -> None:
+        if name.lower() == 'line color':
+            global LINE_COLOR
+            LINE_COLOR = simpledialog.askstring("Input", "Line Color")
+    
+        if name.lower() == 'fill color':
+            global FILL_COLOR
+            FILL_COLOR = simpledialog.askstring("Input", "Fill Color")
+        
+        
         self.__current_object_name = name.lower()
         self.__recreate_object()
 
@@ -173,5 +205,5 @@ class ClickHandler:
         )
 
         self.__counter = 0
-        self.__current_object.draw(TkinterDrawingContext())
+        self.__current_object.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
         self.__recreate_object()

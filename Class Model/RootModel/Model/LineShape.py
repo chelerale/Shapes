@@ -9,6 +9,7 @@ class LineShape(Shape):
     def __init__(self) -> None:
         self.__first: Optional[Point2D] = None
         self.__second: Optional[Point2D] = None
+        
         super().__init__()
 
     @abstractmethod

@@ -22,6 +22,14 @@ class DrawingContext():
     @abstractmethod
     def draw_ellipse(self, params : Tuple[int, ...]):
         pass
+    
+    @abstractmethod
+    def draw_rhombus(self, params : Tuple[int, ...]):
+        pass
+    
+    @abstractmethod
+    def draw_parallelogram(self, params : Tuple[int, ...]):
+        pass
 
     @abstractmethod
     def draw_point(self, params : Tuple[int, ...]):
