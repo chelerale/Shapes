@@ -16,6 +16,14 @@ class DrawingContext():
         pass
 
     @abstractmethod
+    def set_line_color(self, color) -> None:
+        pass
+
+    @abstractmethod
+    def set_fill_color(self, color) -> None:
+        pass
+    
+    @abstractmethod
     def draw_arc(self, params : Tuple[int, ...]):
         pass
 

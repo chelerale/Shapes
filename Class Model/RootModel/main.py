@@ -2,6 +2,7 @@ from tkinter import *
 from typing import *
 from Model.TkinterDrawingContext import TkinterDrawingContext
 from Model.ClickHandler import ClickHandler, SHAPES_DESC
+from tkinter.colorchooser import *
 
 
 class ApplicationWindow:
@@ -46,9 +47,29 @@ class ApplicationWindow:
 
         self.__clicker.set_object('Segment')
 
+    @staticmethod
+    def pick_color(request):
+        dc = TkinterDrawingContext()
+        clr = askcolor()
+        line_requested = request.lower() == 'line color'
+
+        if any(x is None for x in clr):
+            return dc.line_color if line_requested else dc.fill_color 
+
+        if line_requested:
+            dc.line_color = clr[1]
+            return
+        dc.fill_color = clr[1]
+
     def __create_visual_repr_menu(self, vis_menu: Menu) -> None:
-        vis_menu.add_command(label='Line Color', command=lambda x='Line Color': self.__clicker.set_decor(x))
-        vis_menu.add_command(label='Fill Color', command=lambda x='Fill Color': self.__clicker.set_decor(x))
+        vis_menu.add_command(
+            label='Line Color',
+            command=lambda x='Line Color': ApplicationWindow.pick_color(x)
+        )
+        vis_menu.add_command(
+            label='Fill Color',
+            command=lambda x='Fill Color': ApplicationWindow.pick_color(x)
+        )
 
     def __setup_canvas(self) -> None:
         self.__canvas.bind("<Button 1>", lambda e: self.__clicker.left_click(e))
