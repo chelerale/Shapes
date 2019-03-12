@@ -34,7 +34,7 @@ def polygon_accumulator(
         point: Point2D, poly: PolygonalShape,
         counter: int, right_click=False) -> None:
     poly.addPoint(point, right_click)
-    poly.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
+    poly.draw(TkinterDrawingContext())
 
 
 def poly_line_accumulator(
@@ -44,7 +44,7 @@ def poly_line_accumulator(
         return
 
     poly.addPoint(point)
-    poly.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
+    poly.draw(TkinterDrawingContext())
 
 def parallelogram_accumulator(
         point: Point2D, parallelogram: Parallelogram,
@@ -92,8 +92,8 @@ def regular_polygon_accumulator(point: Point2D, poly: NRegularPolygon, counter: 
     
 
 REG_POLY_COUNT = None
-LINE_COLOR = 'black'
-FILL_COLOR = 'white'
+
+
 # Description: (number of points to click, is right-click required)
 SHAPES_DESC = {
     "Segment": (2, False, segment_accumulator),
@@ -154,7 +154,7 @@ class ClickHandler:
 
         if self.__counter == SHAPES_DESC[self.__current_object_name][0] - 1:
             self.__counter = 0
-            self.__current_object.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
+            self.__current_object.draw(TkinterDrawingContext())
             self.__recreate_object()
         else:
             self.__counter += 1
@@ -168,19 +168,6 @@ class ClickHandler:
             REG_POLY_COUNT = simpledialog.askinteger("Input", "Vertex count",
                                  minvalue=3, maxvalue=100)
                   
-        self.__current_object_name = name.lower()
-        self.__recreate_object()
-        
-    def set_decor(self, name: str) -> None:
-        if name.lower() == 'line color':
-            global LINE_COLOR
-            LINE_COLOR = simpledialog.askstring("Input", "Line Color")
-    
-        if name.lower() == 'fill color':
-            global FILL_COLOR
-            FILL_COLOR = simpledialog.askstring("Input", "Fill Color")
-        
-        
         self.__current_object_name = name.lower()
         self.__recreate_object()
 
@@ -205,5 +192,5 @@ class ClickHandler:
         )
 
         self.__counter = 0
-        self.__current_object.draw(TkinterDrawingContext(FILL_COLOR, LINE_COLOR))
+        self.__current_object.draw(TkinterDrawingContext())
         self.__recreate_object()
